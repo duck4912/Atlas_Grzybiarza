@@ -11,6 +11,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Home.unity
     guid: d31d8b13ce0af5247a1bb2d7e4cebcd8
+  - enabled: 1
+    path: Assets/Scenes/Las_Z_Rzeka.unity
+    guid: 71c5b6114b413384ba1d4ff02ccab529
+  - enabled: 1
+    path: Assets/Scenes/Las_Z_Polana.unity
+    guid: a267184d9ae23b74b8c6b853216e572d
+  - enabled: 1
+    path: Assets/Scenes/Przejscie.unity
+    guid: 33ef68d692437604baa4291e716ee8e9
+  - enabled: 1
+    path: Assets/Scenes/Cave.unity
+    guid: d70dd45004bcf9b40b34bb03c9159c8b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

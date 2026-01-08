@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e109082f0889b8f4bad9da40227b91ce, type: 3}
+  m_Name: Data_Muchomor
+  m_EditorClassIdentifier: Assembly-CSharp::MushroomData
+  mushroomName: Muchomor
+  icon: {fileID: 7398670234217459214, guid: 715d839e8b065dc4599cf1e1651ee376, type: 3}
+  prefab: {fileID: 4145031440892829948, guid: 46025b57c99e94441b501d5a659ab28e, type: 3}

@@ -8,20 +8,19 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Data")]
     // Drag ALL your mushroom data files here in the Inspector!
-    // This allows us to calculate "X out of Y found"
     public List<MushroomData> allPossibleMushrooms; 
 
-    // Tracks which unique TYPES you have found (for the "Pokedex" count)
+    // --- BOOK TRACKING ---
+    public bool hasBook = false; // Starts false, Grandpa turns it true
+
+    // Tracks which unique TYPES you have found
     private HashSet<MushroomData> collectedMushrooms = new HashSet<MushroomData>();
 
     // --- 2. SAVE SYSTEM DATA ---
-    // Stores the survivors for each spawner. 
-    // Key = Spawner ID (string), Value = List of surviving mushrooms
     public Dictionary<string, List<MushroomSaveData>> sceneState = new Dictionary<string, List<MushroomSaveData>>();
 
     void Awake()
     {
-        // Singleton Logic: Ensure only one Manager exists and it survives scene loads
         if (Instance == null)
         {
             Instance = this;
@@ -29,7 +28,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // If a duplicate tries to spawn in a new scene, destroy it
             Destroy(gameObject);
         }
     }
@@ -42,16 +40,22 @@ public class GameManager : MonoBehaviour
         {
             collectedMushrooms.Add(data);
 
-            // Calculate Progress
             int currentCount = collectedMushrooms.Count;
             int totalCount = allPossibleMushrooms.Count;
 
             Debug.Log($"NEW DISCOVERY! Found {data.mushroomName}");
             Debug.Log($"Collection Status: {currentCount} / {totalCount}");
             
+            // --- CHECK FOR VICTORY ---
             if(currentCount >= totalCount)
             {
                 Debug.Log("CONGRATULATIONS! You found every mushroom in the game!");
+
+                // NEW: Tell the UI to show the "Go Home" message
+                if (CollectionBookUI.Instance != null)
+                {
+                    CollectionBookUI.Instance.ShowNotification("Collection Complete! Return Home.", 6.0f);
+                }
             }
         }
         else
@@ -60,40 +64,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // --- UI HELPER ---
+    // The UI asks this to know if it should color the icon
+    public bool HasCollected(MushroomData data)
+    {
+        return collectedMushrooms.Contains(data);
+    }
+
     public int GetUniqueMushroomCount()
     {
         return collectedMushrooms.Count;
     }
 
-    // --- 4. SAVE & LOAD LOGIC (Called by Spawners) ---
-    
-    // Called by a Spawner when the player leaves the scene (or game closes)
+    // --- 4. SAVE & LOAD LOGIC ---
     public void SaveZoneData(string spawnerID, List<MushroomSaveData> data)
     {
-        if (sceneState.ContainsKey(spawnerID))
-        {
-            sceneState[spawnerID] = data; // Update existing record
-        }
-        else
-        {
-            sceneState.Add(spawnerID, data); // Create new record
-        }
+        if (sceneState.ContainsKey(spawnerID)) sceneState[spawnerID] = data;
+        else sceneState.Add(spawnerID, data);
+        
         Debug.Log($"GameManager: Saved state for zone '{spawnerID}'. {data.Count} mushrooms survived.");
     }
 
-    // Called by a Spawner when the scene starts
     public List<MushroomSaveData> LoadZoneData(string spawnerID)
     {
-        if (sceneState.ContainsKey(spawnerID))
-        {
-            return sceneState[spawnerID]; // Return the saved survivors
-        }
-        return null; // Return null if we've never been here before
+        if (sceneState.ContainsKey(spawnerID)) return sceneState[spawnerID];
+        return null;
     }
 }
 
 // --- 5. HELPER CLASS ---
-// This defines what "Saved Data" looks like for a single mushroom
 [System.Serializable]
 public class MushroomSaveData
 {

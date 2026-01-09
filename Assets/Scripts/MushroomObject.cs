@@ -5,12 +5,18 @@ public class MushroomObject : MonoBehaviour
     public MushroomData data;
     public GameObject pickupPopup; // The UI Canvas ("Press E")
     
+    // --- NEW AUDIO VARIABLES ---
+    [Header("Audio Settings")]
+    public AudioClip pickupSound; // Drag your .wav file here
+    [Range(0f, 1f)]
+    public float volume = 0.5f;   // Volume control
+    // ---------------------------
+
     private bool canPickUp = false;
 
     // This is hidden because the Spawner assigns it automatically
     [HideInInspector] 
     public SceneSpawner mySpawner; 
-
 
     void Start()
     {
@@ -59,7 +65,14 @@ public class MushroomObject : MonoBehaviour
             mySpawner.MushroomWasPickedUp(this.gameObject);
         }
 
-        // 3. Destroy visual object
+        // 3. --- PLAY SOUND EFFECT HERE ---
+        if (pickupSound != null)
+        {
+            // Creates a temporary speaker at this spot so sound plays even after object is destroyed
+            AudioSource.PlayClipAtPoint(pickupSound, transform.position, volume);
+        }
+
+        // 4. Destroy visual object
         Destroy(gameObject);
     }
 }

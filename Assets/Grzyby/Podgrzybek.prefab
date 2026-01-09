@@ -354,6 +354,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MushroomObject
   data: {fileID: 11400000, guid: 83f48e85c73df314da29003d5c8a42ef, type: 2}
   pickupPopup: {fileID: 6763489765647435972}
+  pickupSound: {fileID: 8300000, guid: ab36b9cf2105eef419f8394206626ad7, type: 3}
+  volume: 0.65
   mySpawner: {fileID: 0}
 --- !u!1 &6763489765647435972
 GameObject:

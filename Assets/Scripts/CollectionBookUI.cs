@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro; 
 using System.Collections.Generic;
-using System.Collections; // Required for the Fade Effect
+using System.Collections; 
 
 public class CollectionBookUI : MonoBehaviour
 {
@@ -20,11 +20,9 @@ public class CollectionBookUI : MonoBehaviour
     public GameObject dialogPanel;     
     public TextMeshProUGUI dialogText; 
 
-    // --- NEW END GAME SETTINGS ---
     [Header("End Game Settings")]
-    public GameObject endScreenPanel;        // The Black Panel
-    public CanvasGroup endScreenCanvasGroup; // The component for fading
-    // -----------------------------
+    public GameObject endScreenPanel;        
+    public CanvasGroup endScreenCanvasGroup; 
 
     private bool isBookOpen = false;
     private List<GameObject> activeSlots = new List<GameObject>();
@@ -48,13 +46,11 @@ public class CollectionBookUI : MonoBehaviour
         if (notificationPanel != null) notificationPanel.SetActive(false);
         if (dialogPanel != null) dialogPanel.SetActive(false);
         
-        // Ensure End Screen is hidden on start
         if (endScreenPanel != null) endScreenPanel.SetActive(false);
     }
 
     void Update()
     {
-        // Toggle Book with TAB
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (GameManager.Instance != null && GameManager.Instance.hasBook)
@@ -94,7 +90,6 @@ public class CollectionBookUI : MonoBehaviour
         }
     }
 
-    // --- NOTIFICATION SYSTEM ---
     public void ShowNotification(string message, float duration)
     {
         if (notificationPanel != null)
@@ -111,7 +106,6 @@ public class CollectionBookUI : MonoBehaviour
         if (notificationPanel != null) notificationPanel.SetActive(false);
     }
 
-    // --- DIALOG SYSTEM ---
     public void ShowDialog(string text)
     {
         if (dialogPanel != null)
@@ -126,17 +120,15 @@ public class CollectionBookUI : MonoBehaviour
         if (dialogPanel != null) dialogPanel.SetActive(false);
     }
 
-    // --- NEW ENDING SEQUENCE ---
     public void TriggerEndingSequence()
     {
         if (endScreenPanel != null)
         {
             endScreenPanel.SetActive(true);
             
-            // Start the fade animation if we have the CanvasGroup
             if (endScreenCanvasGroup != null)
             {
-                endScreenCanvasGroup.alpha = 0; // Start invisible
+                endScreenCanvasGroup.alpha = 0; 
                 StartCoroutine(FadeInEndScreen());
             }
         }
@@ -144,7 +136,7 @@ public class CollectionBookUI : MonoBehaviour
 
     IEnumerator FadeInEndScreen()
     {
-        float duration = 2.0f; // 2 Seconds fade
+        float duration = 2.0f; 
         float time = 0;
 
         while (time < duration)
@@ -155,7 +147,7 @@ public class CollectionBookUI : MonoBehaviour
             yield return null;
         }
         
-        endScreenCanvasGroup.alpha = 1; // Fully black
+        endScreenCanvasGroup.alpha = 1; 
         Debug.Log("The End.");
     }
 }

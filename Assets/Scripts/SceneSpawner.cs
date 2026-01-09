@@ -46,39 +46,32 @@ public class SceneSpawner : MonoBehaviour
         }
     }
 
-    // --- NEW LOGIC: "BAG" SPAWNING ---
     void SpawnFreshMushrooms()
     {
         if (possibleMushrooms.Count == 0) return;
 
-        // 1. Create the Bag
         List<MushroomData> spawnQueue = new List<MushroomData>();
 
-        // 2. Add "Must Haves" (One of each type to guarantee variety)
         foreach (var type in possibleMushrooms)
         {
-            // Only add if we haven't hit the limit yet
             if (spawnQueue.Count < spawnCount)
             {
                 spawnQueue.Add(type);
             }
         }
 
-        // 3. Fill the rest of the slots with Random picks
         while (spawnQueue.Count < spawnCount)
         {
             MushroomData randomType = possibleMushrooms[Random.Range(0, possibleMushrooms.Count)];
             spawnQueue.Add(randomType);
         }
 
-        // 4. Spawn everything in the Bag
         foreach (var dataToSpawn in spawnQueue)
         {
             TrySpawnSpecificMushroom(dataToSpawn);
         }
     }
 
-    // Renamed from TrySpawnRandomMushroom to accept a specific type
     void TrySpawnSpecificMushroom(MushroomData dataToSpawn)
     {
         if (spawnAreas.Count == 0) return;
@@ -96,7 +89,6 @@ public class SceneSpawner : MonoBehaviour
             {
                 if (Physics2D.OverlapCircle(randomPoint, 0.3f, obstacleLayer) == null)
                 {
-                    // USE THE SPECIFIC DATA WE PASSED IN
                     CreateMushroom(dataToSpawn, randomPoint);
                     return;
                 }

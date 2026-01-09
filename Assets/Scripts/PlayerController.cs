@@ -4,24 +4,19 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public Rigidbody2D rb;
-    public Animator animator; // <--- DODANE: Przeciągnij tu obiekt Player w Inspektorze
+    public Animator animator; 
     
     Vector2 movement;
 
     void Update()
     {
-        // Odczyt wejścia
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        // --- SEKRETY ANIMACJI ---
-        // Wysyłamy dane do parametrów, które stworzyłaś w Animatorze
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
-        animator.SetFloat("Speed", movement.sqrMagnitude); // sqrMagnitude sprawdza, czy się ruszamy
+        animator.SetFloat("Speed", movement.sqrMagnitude); 
 
-        // --- ODWRACANIE (FLIP) ---
-        // Używamy localScale zamiast flipX, żeby odwrócić też przyklejoną twarz!
         if (movement.x > 0) {
             transform.localScale = new Vector3(2f, 2f, 1f);
         } 
@@ -37,7 +32,6 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        // Twoja dotychczasowa logika teleportacji (zostawiamy bez zmian)
         if (!string.IsNullOrEmpty(Portal.PUNKT_DOCELOWY))
         {
             GameObject spawnPoint = GameObject.Find(Portal.PUNKT_DOCELOWY);

@@ -3,20 +3,15 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    // --- 1. SINGLETON SETUP ---
     public static GameManager Instance;
 
     [Header("Game Data")]
-    // Drag ALL your mushroom data files here in the Inspector!
     public List<MushroomData> allPossibleMushrooms; 
 
-    // --- BOOK TRACKING ---
-    public bool hasBook = false; // Starts false, Grandpa turns it true
+    public bool hasBook = false; 
 
-    // Tracks which unique TYPES you have found
     private HashSet<MushroomData> collectedMushrooms = new HashSet<MushroomData>();
 
-    // --- 2. SAVE SYSTEM DATA ---
     public Dictionary<string, List<MushroomSaveData>> sceneState = new Dictionary<string, List<MushroomSaveData>>();
 
     void Awake()
@@ -32,10 +27,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // --- 3. COLLECTION LOGIC ---
     public void CollectMushroom(MushroomData data)
     {
-        // Only count it if we haven't found this type before
         if (!collectedMushrooms.Contains(data))
         {
             collectedMushrooms.Add(data);
@@ -46,12 +39,10 @@ public class GameManager : MonoBehaviour
             Debug.Log($"NEW DISCOVERY! Found {data.mushroomName}");
             Debug.Log($"Collection Status: {currentCount} / {totalCount}");
             
-            // --- CHECK FOR VICTORY ---
             if(currentCount >= totalCount)
             {
                 Debug.Log("CONGRATULATIONS! You found every mushroom in the game!");
 
-                // NEW: Tell the UI to show the "Go Home" message
                 if (CollectionBookUI.Instance != null)
                 {
                     CollectionBookUI.Instance.ShowNotification("Collection Complete! Return Home.", 6.0f);
@@ -64,8 +55,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // --- UI HELPER ---
-    // The UI asks this to know if it should color the icon
     public bool HasCollected(MushroomData data)
     {
         return collectedMushrooms.Contains(data);
@@ -76,7 +65,6 @@ public class GameManager : MonoBehaviour
         return collectedMushrooms.Count;
     }
 
-    // --- 4. SAVE & LOAD LOGIC ---
     public void SaveZoneData(string spawnerID, List<MushroomSaveData> data)
     {
         if (sceneState.ContainsKey(spawnerID)) sceneState[spawnerID] = data;
@@ -92,7 +80,6 @@ public class GameManager : MonoBehaviour
     }
 }
 
-// --- 5. HELPER CLASS ---
 [System.Serializable]
 public class MushroomSaveData
 {

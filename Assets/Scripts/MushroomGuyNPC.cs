@@ -2,20 +2,17 @@ using UnityEngine;
 
 public class MushroomGuyNPC : MonoBehaviour
 {
-    public GameObject dialoguePrompt; // The "E" bubble container
+    public GameObject dialoguePrompt; 
     private bool playerInRange = false;
     private bool isTalking = false;
 
     void Start()
     {
-        // 1. CHECK FOR VICTORY
         if (GameManager.Instance != null)
         {
-            // Use the helper function we made in GameManager
             int current = GameManager.Instance.GetUniqueMushroomCount();
             int total = GameManager.Instance.allPossibleMushrooms.Count;
 
-            // If we haven't found everything, HIDE THIS GUY immediately.
             if (current < total)
             {
                 gameObject.SetActive(false); 
@@ -23,8 +20,6 @@ public class MushroomGuyNPC : MonoBehaviour
             }
         }
 
-        // If we survived the check above, it means we WON!
-        // Just ensure the "E" prompt is hidden to start.
         if (dialoguePrompt != null) dialoguePrompt.SetActive(false);
     }
 
@@ -34,12 +29,10 @@ public class MushroomGuyNPC : MonoBehaviour
         {
             if (!isTalking)
             {
-                // First E: Talk
                 StartEndingDialog();
             }
             else
             {
-                // Second E: Fade Out
                 FinishGame();
             }
         }
@@ -58,17 +51,14 @@ public class MushroomGuyNPC : MonoBehaviour
 
     void FinishGame()
     {
-        // 1. Close the dialog box
         if (CollectionBookUI.Instance != null)
         {
             CollectionBookUI.Instance.HideDialog();
             
-            // 2. START THE FADE OUT
             CollectionBookUI.Instance.TriggerEndingSequence();
         }
     }
 
-    // --- PHYSICS TRIGGERS ---
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -85,7 +75,6 @@ public class MushroomGuyNPC : MonoBehaviour
             playerInRange = false;
             if (dialoguePrompt != null) dialoguePrompt.SetActive(false);
             
-            // If we leave while talking, reset (optional)
             if (isTalking && CollectionBookUI.Instance != null)
             {
                 CollectionBookUI.Instance.HideDialog();

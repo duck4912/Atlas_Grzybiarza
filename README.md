@@ -33,7 +33,7 @@ Projekt został zrealizowany jako praca zaliczeniowa w ramach przedmiotu **„Pr
     
 2.  Otwórz projekt w **Unity Hub** (version 6000.2.8f1 (Unity 6)).
     
-3.  Otwórz scenę `MainMenu` znajdującą się w folderze `Assets/Scenes`.
+3.  Otwórz scenę `Start` znajdującą się w folderze `Assets/Scenes`.
     
 4.  Naciśnij przycisk **Play** i zacznij zbieranie!
     
